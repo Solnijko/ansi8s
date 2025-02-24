@@ -1,0 +1,21 @@
+- name: Copy kernel modules config
+  copy:
+    src: modules-k8s.conf
+    dest: /etc/modules-load.d/k8s.conf
+  register: modules
+
+- name: Apply modules
+  shell: |
+    modprobe overlay
+    modprobe br_netfilter
+  when: modules
+
+- name: Copy kernel parameters config
+  copy:
+    src: sysctl-k8s.conf
+    dest: /etc/sysctl.d/k8s.conf
+  register: params
+
+- name: Apply sysctl configuration
+  shell: sysctl --system
+  when: params

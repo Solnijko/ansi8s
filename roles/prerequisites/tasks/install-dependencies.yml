@@ -1,0 +1,13 @@
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: true
+    update_cache: true
+    cache_valid_time: 86400
+
+- name: Install dependencies
+  package:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+    state: present
